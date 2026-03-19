@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Winter Club – Men's Spring Paddle League 2026 Rosters</title>
+  <style>
+    /* ── Reset & Base ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:   #1a4a2e;   /* darkest forest green */
+      --green-primary:#2d6a4f;   /* primary forest green */
+      --green-mid:    #40916c;   /* mid accent */
+      --green-light:  #74c69d;   /* light accent */
+      --green-pale:   #d8f3dc;   /* very light background tint */
+      --white:        #ffffff;
+      --text-dark:    #1b2e22;
+      --text-mid:     #3a5a45;
+      --shadow:       0 4px 16px rgba(0,0,0,0.15);
+      --radius:       10px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f0f7f2;
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-primary) 60%, var(--green-mid) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      padding: 0.35rem 1.1rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    header h1 span {
+      display: block;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      opacity: 0.9;
+      margin-top: 0.35rem;
+    }
+
+    .header-meta {
+      margin-top: 1.2rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .header-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────────── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--green-mid);
+      margin-bottom: 2.2rem;
+      font-weight: 600;
+    }
+
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.75rem;
+    }
+
+    /* ── Team Card ───────────────────────────────────────────────── */
+    .team-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+    }
+
+    .team-header {
+      background: linear-gradient(135deg, var(--green-primary), var(--green-mid));
+      color: var(--white);
+      padding: 1.25rem 1.4rem 1.1rem;
+    }
+
+    .team-number {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 0.25rem;
+    }
+
+    .team-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .team-captain-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      background: rgba(0,0,0,0.18);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .captain-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .captain-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
+      display: block;
+      line-height: 1;
+    }
+
+    .captain-name {
+      font-size: 0.97rem;
+      font-weight: 600;
+    }
+
+    /* ── Player List ─────────────────────────────────────────────── */
+    .player-list {
+      list-style: none;
+      padding: 0.6rem 0;
+      flex: 1;
+    }
+
+    .player-item {
+      display: flex;
+      align-items: center;
+      padding: 0.55rem 1.4rem;
+      border-bottom: 1px solid var(--green-pale);
+      font-size: 0.92rem;
+      transition: background 0.15s;
+    }
+
+    .player-item:last-child {
+      border-bottom: none;
+    }
+
+    .player-item:hover {
+      background: var(--green-pale);
+    }
+
+    .player-num {
+      width: 1.6rem;
+      font-size: 0.72rem;
+      color: var(--green-mid);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .player-name {
+      flex: 1;
+      color: var(--text-dark);
+    }
+
+    .tbd {
+      color: #adb5bd;
+      font-style: italic;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.82rem;
+    }
+
+    footer strong {
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .teams-grid { grid-template-columns: 1fr; }
+      .header-meta { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════════════ -->
+  <header>
+    <div class="header-badge">Winter Club</div>
+    <h1>
+      Men's Spring Paddle League
+      <span>2026 Team Rosters</span>
+    </h1>
+    <div class="header-meta">
+      <span>🎾 4 Teams</span>
+      <span>👥 11 Players per Team</span>
+      <span>📅 Spring 2026</span>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════════ -->
+  <main>
+    <p class="section-title">Official Team Rosters</p>
+
+    <div class="teams-grid">
+
+      <!-- ── Team 1 ─────────────────────────────────────────── -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-number">Team 1</div>
+          <div class="team-name">TBD Team Name</div>
+          <div class="team-captain-row">
+            <span class="captain-icon">⭐</span>
+            <div>
+              <span class="captain-label">Captain</span>
+              <span class="captain-name">TBD</span>
+            </div>
+          </div>
+        </div>
+        <ul class="player-list">
+          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
+        </ul>
+      </div>
+
+      <!-- ── Team 2 ─────────────────────────────────────────── -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-number">Team 2</div>
+          <div class="team-name">TBD Team Name</div>
+          <div class="team-captain-row">
+            <span class="captain-icon">⭐</span>
+            <div>
+              <span class="captain-label">Captain</span>
+              <span class="captain-name">TBD</span>
+            </div>
+          </div>
+        </div>
+        <ul class="player-list">
+          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
+        </ul>
+      </div>
+
+      <!-- ── Team 3 ─────────────────────────────────────────── -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-number">Team 3</div>
+          <div class="team-name">TBD Team Name</div>
+          <div class="team-captain-row">
+            <span class="captain-icon">⭐</span>
+            <div>
+              <span class="captain-label">Captain</span>
+              <span class="captain-name">TBD</span>
+            </div>
+          </div>
+        </div>
+        <ul class="player-list">
+          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
+        </ul>
+      </div>
+
+      <!-- ── Team 4 ─────────────────────────────────────────── -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-number">Team 4</div>
+          <div class="team-name">TBD Team Name</div>
+          <div class="team-captain-row">
+            <span class="captain-icon">⭐</span>
+            <div>
+              <span class="captain-label">Captain</span>
+              <span class="captain-name">TBD</span>
+            </div>
+          </div>
+        </div>
+        <ul class="player-list">
+          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
+        </ul>
+      </div>
+
+    </div><!-- /teams-grid -->
+  </main>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+  <footer>
+    <strong>Winter Club</strong> &nbsp;·&nbsp; Men's Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
+  </footer>
+
+</body>
+</html>
