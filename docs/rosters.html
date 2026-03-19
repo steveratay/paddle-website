@@ -9,11 +9,11 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green-dark:   #1a4a2e;   /* darkest forest green */
-      --green-primary:#2d6a4f;   /* primary forest green */
-      --green-mid:    #40916c;   /* mid accent */
-      --green-light:  #74c69d;   /* light accent */
-      --green-pale:   #d8f3dc;   /* very light background tint */
+      --green-dark:   #1a4a2e;
+      --green-primary:#2d6a4f;
+      --green-mid:    #40916c;
+      --green-light:  #74c69d;
+      --green-pale:   #d8f3dc;
       --white:        #ffffff;
       --text-dark:    #1b2e22;
       --text-mid:     #3a5a45;
@@ -214,9 +214,9 @@
       color: var(--text-dark);
     }
 
-    .tbd {
-      color: #adb5bd;
-      font-style: italic;
+    .player-name.captain {
+      font-weight: 700;
+      color: var(--green-dark);
     }
 
     /* ── Footer ──────────────────────────────────────────────────── */
@@ -261,9 +261,10 @@
 
     <div class="teams-grid">
 
-      <!-- ── Team 1 ─────────────────────────────────────────── -->
+      <!-- ── Team Ratay ──────────────────────────────────────── -->
       <div class="team-card">
         <div class="team-header">
+          <div class="team-number">Team 1</div>
           <div class="team-name">Team Ratay</div>
           <div class="team-captain-row">
             <span class="captain-icon">⭐</span>
@@ -274,23 +275,24 @@
           </div>
         </div>
         <ul class="player-list">
-          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">1</span><span class="player-name captain">Steve Ratay</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name">Troy Bolton</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name">Daniel Burke</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name">James Vermillion</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name">Paul Blume</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name">Erik Pelletier</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name">Reid Gustafson</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name">Darrell Scott</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name">Mark Rickmeier</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name">Lou Ehrhard</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name">Jeffrey Collins</span></li>
         </ul>
       </div>
 
-      <!-- ── Team 2 ─────────────────────────────────────────── -->
+      <!-- ── Team Gowski ─────────────────────────────────────── -->
       <div class="team-card">
         <div class="team-header">
+          <div class="team-number">Team 2</div>
           <div class="team-name">Team Gowski</div>
           <div class="team-captain-row">
             <span class="captain-icon">⭐</span>
@@ -301,50 +303,24 @@
           </div>
         </div>
         <ul class="player-list">
-          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">1</span><span class="player-name captain">Doug Gowski</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name">David Winebrenner</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name">Sean Longworth</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name">TK Gore</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name">John Plant</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name">Thomas Back</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name">Tom Derrick</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name">Kevin Berrill</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name">Nikolai Jankovich</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name">Doug Falls</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name">Kent Novit</span></li>
         </ul>
       </div>
 
-      <!-- ── Team 3 ─────────────────────────────────────────── -->
+      <!-- ── Team Salgat ─────────────────────────────────────── -->
       <div class="team-card">
         <div class="team-header">
-          <div class="team-name">Team Miclea</div>
-          <div class="team-captain-row">
-            <span class="captain-icon">⭐</span>
-            <div>
-              <span class="captain-label">Captain</span>
-              <span class="captain-name">Matt Miclea</span>
-            </div>
-          </div>
-        </div>
-        <ul class="player-list">
-          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
-        </ul>
-      </div>
-
-      <!-- ── Team 4 ─────────────────────────────────────────── -->
-      <div class="team-card">
-        <div class="team-header">
+          <div class="team-number">Team 3</div>
           <div class="team-name">Team Salgat</div>
           <div class="team-captain-row">
             <span class="captain-icon">⭐</span>
@@ -355,17 +331,45 @@
           </div>
         </div>
         <ul class="player-list">
-          <li class="player-item"><span class="player-num">1</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">2</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">3</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">4</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">5</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">6</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">7</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">8</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">9</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">10</span><span class="player-name tbd">Player TBD</span></li>
-          <li class="player-item"><span class="player-num">11</span><span class="player-name tbd">Player TBD</span></li>
+          <li class="player-item"><span class="player-num">1</span><span class="player-name captain">Mike Salgat</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name">Rob Peeler</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name">Joe Magliochetti</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name">Peter Maggos</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name">Brian Specht</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name">Tom Magnusson</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name">Jason Akemann</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name">Andrew Sturges</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name">Jon Smoter</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name">Ryan Liddle</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name">Lukas Szot</span></li>
+        </ul>
+      </div>
+
+      <!-- ── Team Miclea ─────────────────────────────────────── -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-number">Team 4</div>
+          <div class="team-name">Team Miclea</div>
+          <div class="team-captain-row">
+            <span class="captain-icon">⭐</span>
+            <div>
+              <span class="captain-label">Captain</span>
+              <span class="captain-name">Matthew Miclea</span>
+            </div>
+          </div>
+        </div>
+        <ul class="player-list">
+          <li class="player-item"><span class="player-num">1</span><span class="player-name captain">Matthew Miclea</span></li>
+          <li class="player-item"><span class="player-num">2</span><span class="player-name">Brad Moore</span></li>
+          <li class="player-item"><span class="player-num">3</span><span class="player-name">Chris Jensen</span></li>
+          <li class="player-item"><span class="player-num">4</span><span class="player-name">Zach Manchester</span></li>
+          <li class="player-item"><span class="player-num">5</span><span class="player-name">Ryan Evans</span></li>
+          <li class="player-item"><span class="player-num">6</span><span class="player-name">Jeff Savage</span></li>
+          <li class="player-item"><span class="player-num">7</span><span class="player-name">Matt Davis</span></li>
+          <li class="player-item"><span class="player-num">8</span><span class="player-name">Adam Thurston</span></li>
+          <li class="player-item"><span class="player-num">9</span><span class="player-name">John Graziano</span></li>
+          <li class="player-item"><span class="player-num">10</span><span class="player-name">Stephen Metcalf</span></li>
+          <li class="player-item"><span class="player-num">11</span><span class="player-name">Brian Perry</span></li>
         </ul>
       </div>
 
