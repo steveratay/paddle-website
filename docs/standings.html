@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Winter Club – Results | Men's Spring Paddle League 2026</title>
+  <title>Winter Club – Standings | Men's Spring Paddle League 2026</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -287,6 +287,53 @@
       display: block;
     }
 
+    /* ── Standings Table ─────────────────────────────────────── */
+    .standings-table-container {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .standings-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .standings-table thead {
+      background: var(--green-primary);
+      color: var(--white);
+    }
+
+    .standings-table th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .standings-table tbody tr {
+      border-bottom: 1px solid var(--green-pale);
+    }
+
+    .standings-table tbody tr:hover {
+      background: var(--green-pale);
+      opacity: 0.6;
+    }
+
+    .standings-table td {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--green-primary);
+    }
+
+    .standings-table td:first-child {
+      font-weight: 600;
+      color: var(--green-dark);
+    }
+
     /* ── Footer ──────────────────────────────────────────────── */
     footer {
       text-align: center;
@@ -307,89 +354,77 @@
     <a class="nav-link" href="index.html">Home</a>
     <a class="nav-link" href="rosters.html">Rosters</a>
     <a class="nav-link" href="schedule.html">Schedule</a>
-    <a class="nav-link active" href="results.html">Results</a>
-    <a class="nav-link" href="standings.html">Standings</a>
+    <a class="nav-link" href="results.html">Results</a>
+    <a class="nav-link active" href="standings.html">Standings</a>
   </nav>
 
   <!-- ══ HEADER ══════════════════════════════════════════════════ -->
   <header>
     <div class="header-badge">Winter Club</div>
     <h1>
-      Results
+      Standings
       <span>Men's Spring Paddle League 2026</span>
     </h1>
   </header>
 
   <!-- ══ MAIN ════════════════════════════════════════════════════ -->
   <main>
-      <div class="standings-table-container">
-        <table class="standings-table">
-          <thead>
+      <table class="standings-table">
+        <thead>
+          <tr>
+          <th style="text-align: center;">Team</th>
+          <th style="text-align: center;">Points</th>
+          <th style="text-align: center;">W1</th>
+          <th style="text-align: center;">W2</th>
+          <th style="text-align: center;">W3</th>
+          <th style="text-align: center;">W4</th>
+          <th style="text-align: center;">W5</th>
+          <th style="text-align: center;">W6</th>
+          </tr>
+        </thead>
+        <tbody>
             <tr>
-              <th>#</th>
-              <th>Team</th>
-              <th>Points</th>
-              <th></th>
-              <th>W1</th>
-              <th>W2</th>
-              <th>W3</th>
-              <th>W4</th>
-              <th>W5</th>
-              <th>W6</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Team Ratay</td>
-              <td>0</td>
-              <td></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td style="text-align: center;">Team Ratay</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
             </tr>
             <tr>
-              <td>2</td>
-              <td>Team Gowski</td>
-              <td>0</td>
-              <td></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td style="text-align: center;">Team Gowski</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
             </tr>
             <tr>
-              <td>3</td>
-              <td>Team Miclea</td>
-              <td>0</td>
-              <td></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td style="text-align: center;">Team Miclea</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
             </tr>
             <tr>
-              <td>4</td>
-              <td>Team Salgat</td>
-              <td>0</td>
-              <td></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td style="text-align: center;">Team Salgat</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
+              <td style="text-align: center;">0</td>
             </tr>
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+      </table>
   </main>
 
   <!-- ══ FOOTER ══════════════════════════════════════════════════ -->

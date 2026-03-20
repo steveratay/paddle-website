@@ -113,7 +113,7 @@ def parse_sheet_data(data):
     
     Column mapping (1-indexed):
     B (col 2): Home team points / individual match points
-    C (col 3): Home team name / home team players
+    ceC (col 3): Home team name / home team players
     D (col 4): Match date / set-by-set score
     E (col 5): Guest team name / guest team players
     F (col 6): Guest team points / guest team points
@@ -669,14 +669,12 @@ def fetch_standings():
 
 def generate_standings_html(standings):
     """Generate the standings.html content from standings data."""
-    # Load the existing template (use standings.html if exists, otherwise results.html template)
+    # Load the existing standings.html template
     standings_template_path = SCRIPT_DIR / "docs" / "standings.html"
     template = None
     
     if standings_template_path.exists():
         template = standings_template_path.read_text(encoding="utf-8")
-    else:
-        template = load_html_template()
     
     if template is None:
         return generate_minimal_standings_html(standings)
@@ -695,35 +693,40 @@ def generate_standings_main_content(standings):
     if not standings:
         return "    <p>No standings data available.</p>"
     
-    # Get headers from the first entry
+    # Get headers from the first entry, filtering out empty column headers
     headers = list(standings[0].keys())
+    # Filter out empty/whitespace-only column names
+    headers = [h for h in headers if h.strip()]
+    
+    # Skip the first column if it's numbered rank (#)
+    # Check if first header is a rank/number column (commonly "#", "Rank", "Position", etc.)
+    if headers and (headers[0] == "#" or headers[0].lower() in ["rank", "position", "num", "no"]):
+        headers = headers[1:]
     
     main_content = []
     
-    # Table header
-    main_content.append('      <div class="standings-table-container">')
-    main_content.append('        <table class="standings-table">')
-    main_content.append('          <thead>')
-    main_content.append('            <tr>')
+    # Table header - use standings-table class to match the existing template
+    main_content.append('      <table class="standings-table">')
+    main_content.append('        <thead>')
+    main_content.append('          <tr>')
     
     for header in headers:
-        main_content.append(f'              <th>{header}</th>')
+        main_content.append(f'          <th style="text-align: center;">{header}</th>')
     
-    main_content.append('            </tr>')
-    main_content.append('          </thead>')
-    main_content.append('          <tbody>')
+    main_content.append('          </tr>')
+    main_content.append('        </thead>')
+    main_content.append('        <tbody>')
     
     # Table rows
     for entry in standings:
         main_content.append('            <tr>')
         for header in headers:
             value = entry.get(header, "")
-            main_content.append(f'              <td>{value}</td>')
+            main_content.append(f'              <td style="text-align: center;">{value}</td>')
         main_content.append('            </tr>')
     
-    main_content.append('          </tbody>')
-    main_content.append('        </table>')
-    main_content.append('      </div>')
+    main_content.append('        </tbody>')
+    main_content.append('      </table>')
     
     return "\n".join(main_content)
 
