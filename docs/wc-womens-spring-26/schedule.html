@@ -72,7 +72,7 @@
     }
 
     /* ── Header ─────────────────────────────────────────────── */
-    header {
+    .hero {
       background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-primary) 60%, var(--green-mid) 100%);
       color: var(--white);
       text-align: center;
@@ -81,14 +81,7 @@
       overflow: hidden;
     }
 
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-
-    .header-badge {
+    .hero .header-badge {
       display: inline-block;
       background: rgba(255,255,255,0.15);
       border: 1px solid rgba(255,255,255,0.3);
@@ -101,7 +94,7 @@
       position: relative;
     }
 
-    header h1 {
+    .hero h1 {
       font-size: clamp(1.6rem, 4vw, 2.8rem);
       font-weight: 800;
       letter-spacing: -0.01em;
@@ -110,7 +103,7 @@
       position: relative;
     }
 
-    header h1 span {
+    .hero h1 span {
       display: block;
       font-size: clamp(1rem, 2.5vw, 1.5rem);
       font-weight: 400;
@@ -196,20 +189,22 @@
   <nav>
     <a class="nav-brand" href="../index.html">Winter Club <span>Paddle League</span></a>
     <a class="nav-link" href="index.html">Home</a>
+    <!--
     <a class="nav-link" href="rosters.html">Rosters</a>
+    -->
     <a class="nav-link active" href="schedule.html">Schedule</a>
     <a class="nav-link" href="results.html">Results</a>
     <a class="nav-link" href="standings.html">Standings</a>
   </nav>
 
-  <!-- ══ HEADER ══════════════════════════════════════════════════ -->
-  <header>
+  <!-- ══ HERO ════════════════════════════════════════════════════ -->
+  <div class="hero">
     <div class="header-badge">Winter Club</div>
     <h1>
       Schedule
       <span>Womens Spring Paddle League 2026</span>
     </h1>
-  </header>
+  </div>
 
   <!-- ══ MAIN ════════════════════════════════════════════════════ -->
   <main>
