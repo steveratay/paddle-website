@@ -4,23 +4,57 @@ Google Sheets Results Fetcher
 
 Reads match results and standings from a Google Sheet and updates
 results.html and standings.html with the data.
+
+Supports multiple sites by loading configuration from config.json
+Usage:
+  python3 results_fetcher.py           # Process all sites from config
+  python3 results_fetcher.py <site_id> # Process a specific site
 """
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import re
+import json
+import sys
 from pathlib import Path
 
 # Google Sheets configuration
 SCOPES = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1D8euOXUaqpxDVJM0vFwlZZSgW5lyZDfSv7zv49YmkmQ/edit"
-WORKSHEET_NAME = "Results"
-STANDINGS_WORKSHEET_NAME = "Standings"
 
 # File paths
 SCRIPT_DIR = Path(__file__).parent
-RESULTS_HTML = SCRIPT_DIR / "docs" / "results.html"
-STANDINGS_HTML = SCRIPT_DIR / "docs" / "standings.html"
+CONFIG_FILE = SCRIPT_DIR / "config.json"
+
+
+def load_config():
+    """Load configuration from config.json file."""
+    if not CONFIG_FILE.exists():
+        print(f"Error: Configuration file not found: {CONFIG_FILE}")
+        return None
+    
+    try:
+        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        return config
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in config file: {e}")
+        return None
+    except Exception as e:
+        print(f"Error reading config file: {e}")
+        return None
+
+
+def get_site_config(config, site_id):
+    """Get configuration for a specific site by its ID."""
+    for site in config.get('sites', []):
+        if site.get('name') == site_id:
+            return site
+    return None
+
+
+def get_credentials_file(config):
+    """Get the credentials file path from config."""
+    return config.get('default_credentials_file', 'service-account-credentials.json')
 
 
 def fetch_results():
@@ -938,54 +972,48 @@ def generate_minimal_standings_html(standings):
 </html>'''
 
 
-def main():
-    """Main function to fetch and process results."""
-    print("=" * 60)
-    print("Google Sheets Results Fetcher")
-    print("=" * 60)
-    print()
-    
-    # Check for credentials file
+def process_site(site_config, creds_file):
+    """Process a single site using its configuration."""
     import os
-    creds_file = "service-account-credentials.json"
     
+    site_name = site_config.get('name', 'unknown')
+    spreadsheet_url = site_config.get('spreadsheet_url', '')
+    output_folder = site_config.get('output_folder', 'docs')
+    results_worksheet = site_config.get('results_worksheet', 'Results')
+    standings_worksheet = site_config.get('standings_worksheet', 'Standings')
+    
+    # Set up output paths
+    output_path = SCRIPT_DIR / output_folder
+    results_html_path = output_path / "results.html"
+    standings_html_path = output_path / "standings.html"
+    
+    print(f"\nProcessing site: {site_name}")
+    print("-" * 40)
+    
+    # Check if output directory exists
+    if not output_path.exists():
+        print(f"Error: Output directory does not exist: {output_path}")
+        return False
+    
+    # Verify credentials file exists
     if not os.path.exists(creds_file):
-        print(f"Service account credentials file not found: {creds_file}")
-        print()
-        print("To set up authentication, you have two options:")
-        print()
-        print("Option 1: Use Service Account (Recommended for production)")
-        print("  1. Go to https://console.cloud.google.com/")
-        print("  2. Create a new project or select existing one")
-        print("  3. Go to API & Services > Credentials")
-        print("  4. Click 'Create Credentials' > 'Service Account'")
-        print("  5. Follow the wizard to create the service account")
-        print("  6. Click 'Create Key' > 'JSON' and download the file")
-        print("  7. Save it as 'service-account-credentials.json' in this directory")
-        print("  8. Share your Google Sheet with the service account email")
-        print()
-        print("Option 2: Use OAuth (For local development)")
-        print("  1. Run: pip install gspread oauth2client")
-        print("  2. Run: python3 -m gspread.cli")
-        print("  3. Follow the instructions to authenticate")
-        print()
-        print("Once credentials are set up, update the script to use them.")
-        print()
-        return
+        print(f"Warning: Credentials file not found: {creds_file}")
+        print("Skipping this site. Please set up credentials first.")
+        return False
     
     try:
         # Initialize Google Sheets client
-        print("Connecting to Google Sheets...")
+        print(f"Connecting to Google Sheets...")
         creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, SCOPES)
         client = gspread.authorize(creds)
         
         # Open the spreadsheet
-        print(f"Opening spreadsheet: {SPREADSHEET_URL}")
-        sheet = client.open_by_url(SPREADSHEET_URL)
+        print(f"Opening spreadsheet: {spreadsheet_url}")
+        sheet = client.open_by_url(spreadsheet_url)
         
-        # Get the worksheet
-        print(f"Accessing worksheet: {WORKSHEET_NAME}")
-        worksheet = sheet.worksheet(WORKSHEET_NAME)
+        # Get the results worksheet
+        print(f"Accessing worksheet: {results_worksheet}")
+        worksheet = sheet.worksheet(results_worksheet)
         
         # Fetch all data
         print("Fetching data from sheet...")
@@ -993,51 +1021,149 @@ def main():
         
         if not data:
             print("No data found in the sheet.")
-            return
+            return False
         
         print(f"Retrieved {len(data)} rows")
-        print()
         
         # Parse the data
         print("Parsing match results...")
         matches = parse_sheet_data(data)
         print(f"Found {len(matches)} week(s) of matches")
-        print()
         
         # Generate HTML
         print("Generating results.html...")
         html_content = generate_results_html(matches)
         
         # Write to file
-        RESULTS_HTML.write_text(html_content, encoding="utf-8")
-        print(f"✓ Results written to: {RESULTS_HTML}")
-        print()
+        results_html_path.write_text(html_content, encoding="utf-8")
+        print(f"✓ Results written to: {results_html_path}")
         
         # Fetch and generate standings
         print("Fetching standings data...")
-        standings = fetch_standings()
         
-        if standings:
-            print(f"Found {len(standings)} team(s) in standings")
-            print("Generating standings.html...")
-            standings_html = generate_standings_html(standings)
-            STANDINGS_HTML.write_text(standings_html, encoding="utf-8")
-            print(f"✓ Standings written to: {STANDINGS_HTML}")
-            print()
-        else:
-            print("Standings data not available. Skipping standings generation.")
-            print()
+        try:
+            standings_sheet = sheet.worksheet(standings_worksheet)
+            standings_data = standings_sheet.get_all_values()
+            
+            if standings_data and len(standings_data) >= 2:
+                # Extract headers from first row
+                headers = standings_data[0]
+                
+                # Extract rows (skip header)
+                rows = standings_data[1:]
+                
+                # Convert to list of dicts for easier processing
+                standings = []
+                for row in rows:
+                    entry = {}
+                    for i, header in enumerate(headers):
+                        value = row[i].strip() if i < len(row) else ""
+                        entry[header] = value
+                    standings.append(entry)
+                
+                if standings:
+                    print(f"Found {len(standings)} team(s) in standings")
+                    print("Generating standings.html...")
+                    standings_html = generate_standings_html(standings)
+                    standings_html_path.write_text(standings_html, encoding="utf-8")
+                    print(f"✓ Standings written to: {standings_html_path}")
+                else:
+                    print("No standings data available.")
+            else:
+                print("No standings data found in the sheet.")
+        except Exception as e:
+            print(f"Standings processing skipped: {e}")
         
-        print("Done! The results.html and standings.html files have been updated.")
+        print(f"✓ Site '{site_name}' processed successfully!")
+        return True
         
     except Exception as e:
-        print(f"Error: {e}")
-        print()
+        print(f"Error processing site '{site_name}': {e}")
         print("Common issues:")
         print("  - Sheet not shared with service account email")
         print("  - Incorrect worksheet name")
         print("  - Network connectivity issues")
         print("  - Invalid credentials file")
+        return False
+
+
+def main():
+    """Main function to fetch and process results."""
+    import os
+    
+    print("=" * 60)
+    print("Google Sheets Results Fetcher")
+    print("=" * 60)
+    
+    # Load configuration
+    config = load_config()
+    if config is None:
+        return
+    
+    # Get credentials file from config
+    creds_file = get_credentials_file(config)
+    creds_file_path = SCRIPT_DIR / creds_file
+    
+    # Determine which sites to process
+    site_arg = None
+    if len(sys.argv) > 1:
+        site_arg = sys.argv[1]
+    
+    # Process sites
+    if site_arg:
+        # Process a specific site
+        site_config = get_site_config(config, site_arg)
+        if site_config is None:
+            print(f"\nError: Site '{site_arg}' not found in config.")
+            print(f"\nAvailable sites:")
+            for site in config.get('sites', []):
+                print(f"  - {site.get('name', 'unknown')}")
+            return
+        
+        # Check credentials file
+        if not creds_file_path.exists():
+            print(f"Credentials file not found: {creds_file_path}")
+            return
+        
+        process_site(site_config, str(creds_file_path))
+    else:
+        # Process all sites
+        print("\nLoading configuration...")
+        sites = config.get('sites', [])
+        
+        if not sites:
+            print("No sites found in configuration file.")
+            return
+        
+        print(f"Found {len(sites)} site(s) to process")
+        
+        # Check credentials file
+        if not creds_file_path.exists():
+            print(f"\nCredentials file not found: {creds_file_path}")
+            print("\nTo set up authentication, you have two options:")
+            print("\nOption 1: Use Service Account (Recommended for production)")
+            print("  1. Go to https://console.cloud.google.com/")
+            print("  2. Create a new project or select existing one")
+            print("  3. Go to API & Services > Credentials")
+            print("  4. Click 'Create Credentials' > 'Service Account'")
+            print("  5. Follow the wizard to create the service account")
+            print("  6. Click 'Create Key' > 'JSON' and download the file")
+            print(f"  7. Save it as '{creds_file}' in this directory")
+            print("  8. Share your Google Sheet with the service account email")
+            print("\nOption 2: Use OAuth (For local development)")
+            print("  1. Run: pip install gspread oauth2client")
+            print("  2. Run: python3 -m gspread.cli")
+            print("  3. Follow the instructions to authenticate")
+            return
+        
+        success_count = 0
+        for site in sites:
+            if process_site(site, str(creds_file_path)):
+                success_count += 1
+        
+        print("\n" + "=" * 60)
+        print(f"Completed processing {success_count}/{len(sites)} site(s)")
+        print("=" * 60)
 
 
 if __name__ == "__main__":
