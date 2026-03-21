@@ -10,13 +10,13 @@
       "standings_template": "docs/wc-mens-spring-26/standings.html"
     },
     {
-      "name": "wc-ladies-spring-26",
+      "name": "wc-womens-spring-26",
       "spreadsheet_url": "https://docs.google.com/spreadsheets/d/1wGM_XHdDtovIW23nK3kOQjKIsqsSspM_b5U4ZvVk2YI/edit",
-      "output_folder": "docs/wc-ladies-spring-26",
+      "output_folder": "docs/wc-womens-spring-26",
       "results_worksheet": "Results",
       "standings_worksheet": "Standings",
-      "results_template": "docs/wc-ladies-spring-26/results.html",
-      "standings_template": "docs/wc-ladies-spring-26/standings.html"
+      "results_template": "docs/wc-womens-spring-26/results.html",
+      "standings_template": "docs/wc-womens-spring-26/standings.html"
     }
   ],
   "default_credentials_file": "service-account-credentials.json"
