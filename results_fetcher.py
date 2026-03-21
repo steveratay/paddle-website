@@ -370,7 +370,7 @@ def generate_minimal_html(matches):
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Winter Club – Results | Men's Spring Paddle League 2026</title>
+  <title>Winter Club – Results | Mens Spring Paddle League 2026</title>
   <style>
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 
@@ -627,7 +627,7 @@ def generate_minimal_html(matches):
 </head>
 <body>
     <nav>
-    <a class="nav-brand" href="index.html">Winter Club <span>Paddle League</span></a>
+    <a class="nav-brand" href="../index.html">Winter Club <span>Paddle League</span></a>
     <a class="nav-link" href="index.html">Home</a>
     <a class="nav-link" href="rosters.html">Rosters</a>
     <a class="nav-link" href="schedule.html">Schedule</a>
@@ -638,14 +638,14 @@ def generate_minimal_html(matches):
     <div class="header-badge">Winter Club</div>
     <h1>
       Results
-      <span>Men's Spring Paddle League 2026</span>
+      <span>Mens Spring Paddle League 2026</span>
     </h1>
   </header>
   <main>
 {main_content}
   </main>
   <footer>
-    <strong>Winter Club</strong> &nbsp;·&nbsp; Men's Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
+    <strong>Winter Club</strong> &nbsp;·&nbsp; Mens Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
   </footer>
 </body>
 </html>'''
@@ -774,7 +774,7 @@ def generate_minimal_standings_html(standings):
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Winter Club – Standings | Men's Spring Paddle League 2026</title>
+  <title>Winter Club – Standings | Mens Spring Paddle League 2026</title>
   <style>
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 
@@ -948,7 +948,7 @@ def generate_minimal_standings_html(standings):
 </head>
 <body>
   <nav>
-    <a class="nav-brand" href="index.html">Winter Club <span>Paddle League</span></a>
+    <a class="nav-brand" href="../index.html">Winter Club <span>Paddle League</span></a>
     <a class="nav-link" href="index.html">Home</a>
     <a class="nav-link" href="rosters.html">Rosters</a>
     <a class="nav-link" href="schedule.html">Schedule</a>
@@ -959,14 +959,14 @@ def generate_minimal_standings_html(standings):
     <div class="header-badge">Winter Club</div>
     <h1>
       Standings
-      <span>Men's Spring Paddle League 2026</span>
+      <span>Mens Spring Paddle League 2026</span>
     </h1>
   </header>
   <main>
 {main_content}
   </main>
   <footer>
-    <strong>Winter Club</strong> &nbsp;·&nbsp; Men's Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
+    <strong>Winter Club</strong> &nbsp;·&nbsp; Mens Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
   </footer>
 </body>
 </html>'''
