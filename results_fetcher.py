@@ -412,7 +412,6 @@ def generate_minimal_html(matches, league_name):
     <nav>
     <a class="nav-brand" href="../index.html">Winter Club <span>Paddle League</span></a>
     <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="rosters.html">Rosters</a>
     <a class="nav-link" href="schedule.html">Schedule</a>
     <a class="nav-link active" href="results.html">Results</a>
     <a class="nav-link" href="standings.html">Standings</a>
@@ -538,11 +537,17 @@ def generate_standings_main_content(standings):
     main_content.append('        <tbody>')
     
     # Table rows
+    first_col = headers[0] if headers else None
     for entry in standings:
         main_content.append('            <tr>')
         for header in headers:
             value = entry.get(header, "")
-            main_content.append(f'              <td style="text-align: center;">{value}</td>')
+            if header == first_col and value:
+                slug = value.lower().replace(' ', '-')
+                cell = f'<a href="{slug}.html">{value}</a>'
+            else:
+                cell = value
+            main_content.append(f'              <td style="text-align: center;">{cell}</td>')
         main_content.append('            </tr>')
     
     main_content.append('        </tbody>')
@@ -567,7 +572,6 @@ def generate_minimal_standings_html(standings, league_name):
   <nav>
     <a class="nav-brand" href="../index.html">Winter Club <span>Paddle League</span></a>
     <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="rosters.html">Rosters</a>
     <a class="nav-link" href="schedule.html">Schedule</a>
     <a class="nav-link" href="results.html">Results</a>
     <a class="nav-link active" href="standings.html">Standings</a>
@@ -587,6 +591,239 @@ def generate_minimal_standings_html(standings, league_name):
   </footer>
 </body>
 </html>'''
+
+
+def generate_team_left_column(rows):
+    """Generate HTML for the left column (columns A-D) of a team page."""
+    if not rows:
+        return ''
+
+    parts = []
+    in_table = False
+
+    for row in rows[1:2] + rows[3:]:
+        cells = [row[i].strip() if i < len(row) else '' for i in range(4)]
+
+        if not any(cells):
+            continue
+
+        # Label row: only column A has content
+        is_label = bool(cells[0]) and not any(cells[1:])
+
+        if is_label:
+            if in_table:
+                parts.append(f'  <tr class="team-sub-label"><td colspan="4">{cells[0]}</td></tr>')
+            else:
+                parts.append(f'<h3 class="team-section-label">{cells[0]}</h3>')
+        else:
+            if not in_table:
+                # First data row after a section label becomes the table header
+                parts.append('<table class="team-table"><thead><tr>')
+                for cell in cells:
+                    parts.append(f'  <th>{cell}</th>')
+                parts.append('</tr></thead><tbody>')
+                in_table = True
+            else:
+                parts.append('<tr>')
+                for cell in cells:
+                    parts.append(f'  <td>{cell}</td>')
+                parts.append('</tr>')
+
+    if in_table:
+        parts.append('</tbody></table>')
+
+    return '\n'.join(parts)
+
+
+def generate_team_right_column(rows):
+    """Generate HTML for the right column (columns F-H, rows 3-10) of a team page."""
+    # Rows 3-10 (1-indexed) = indices 2-9; columns F-H = indices 5-7
+    if len(rows) < 3:
+        return ''
+
+    right_rows = rows[2:10]
+    col_indices = [5, 6, 7]
+
+    parts = ['<table class="team-table">']
+    for i, row in enumerate(right_rows):
+        cells = [row[j].strip() if j < len(row) else '' for j in col_indices]
+        if i == 0:
+            parts.append('<thead><tr>')
+            for cell in cells:
+                parts.append(f'  <th>{cell}</th>')
+            parts.append('</tr></thead><tbody>')
+        else:
+            parts.append('<tr>')
+            for cell in cells:
+                parts.append(f'  <td>{cell}</td>')
+            parts.append('</tr>')
+    parts.append('</tbody></table>')
+
+    return '\n'.join(parts)
+
+
+def generate_team_html(tab_name, title_html, left_html, right_html, league_name):
+    """Generate the full HTML page for a team."""
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{tab_name} | {league_name}</title>
+  <link rel="stylesheet" href="../common.css" />
+  <style>
+    .team-page {{
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }}
+    .team-title-row {{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--green-pale);
+    }}
+    .team-title {{
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--green-dark);
+    }}
+    .team-pts {{
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--green-primary);
+    }}
+    .team-section-label {{
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 1.25rem 0 0.5rem;
+    }}
+    .team-table {{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }}
+    .team-table thead {{
+      background: var(--green-primary);
+      color: var(--white);
+    }}
+    .team-table th {{
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }}
+    .team-table td {{
+      padding: 0.55rem 0.9rem;
+      border-bottom: 1px solid var(--green-pale);
+      color: var(--text-dark);
+    }}
+    .team-table tbody tr:last-child td {{ border-bottom: none; }}
+    .team-table tbody tr:hover {{ background: var(--green-pale); }}
+    .team-sub-label td {{
+      background: var(--green-pale);
+      font-weight: 600;
+      color: var(--green-dark);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0.9rem;
+    }}
+    @media (max-width: 700px) {{
+      .team-page {{ grid-template-columns: 1fr; }}
+    }}
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-brand" href="../index.html">Winter Club <span>Paddle League</span></a>
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="schedule.html">Schedule</a>
+    <a class="nav-link" href="results.html">Results</a>
+    <a class="nav-link" href="standings.html">Standings</a>
+  </nav>
+  <header>
+    <div class="header-badge">Winter Club</div>
+    <h1>
+      {tab_name}
+      <span>{league_name}</span>
+    </h1>
+  </header>
+  <main>
+{title_html}
+    <div class="team-page">
+      <div class="team-left-col">
+{left_html}
+      </div>
+      <div class="team-right-col">
+{right_html}
+      </div>
+    </div>
+  </main>
+  <footer>
+    <strong>Winter Club</strong> &nbsp;·&nbsp; {league_name} &nbsp;·&nbsp; All rights reserved
+  </footer>
+</body>
+</html>'''
+
+
+def process_team_sheets(sheet, league_name, output_path):
+    """Find all Team* worksheets and generate individual team HTML pages."""
+    worksheets = sheet.worksheets()
+    team_sheets = [ws for ws in worksheets if ws.title.startswith('Team')]
+
+    if not team_sheets:
+        print("  No team worksheets found.")
+        return
+
+    print(f"  Found {len(team_sheets)} team worksheet(s)")
+
+    for ws in team_sheets:
+        tab_name = ws.title
+        slug = tab_name.lower().replace(' ', '-')
+        output_file = output_path / f"{slug}.html"
+
+        print(f"  Processing: {tab_name}")
+        data = ws.get_all_values()
+
+        if not data:
+            print(f"    No data found, skipping.")
+            continue
+
+        # Find last non-empty row in columns A-D
+        last_row_idx = 0
+        for i, row in enumerate(data):
+            if any(cell.strip() for cell in row[:4]):
+                last_row_idx = i
+
+        # Build title HTML from row 1 (spans both columns)
+        row1 = data[0] if data else []
+        team_name = row1[0].strip() if len(row1) > 0 else ''
+        pts_label = row1[2].strip() if len(row1) > 2 else ''
+        pts_value = row1[3].strip() if len(row1) > 3 else ''
+        pts_display = f'{pts_label} {pts_value}'.strip()
+        pts_span = f'  <span class="team-pts">{pts_display}</span>' if pts_display else ''
+        title_html = f'    <div class="team-title-row">\n  <span class="team-title">{team_name}</span>\n{pts_span}\n    </div>'
+
+        left_rows = data[:last_row_idx + 1]
+        left_html = generate_team_left_column(left_rows)
+        right_html = generate_team_right_column(data)
+
+        html = generate_team_html(tab_name, title_html, left_html, right_html, league_name)
+        output_file.write_text(html, encoding='utf-8')
+        print(f"    ✓ Written to: {output_file}")
 
 
 def process_site(site_config, creds_file):
@@ -692,6 +929,13 @@ def process_site(site_config, creds_file):
         except Exception as e:
             print(f"Standings processing skipped: {e}")
         
+        # Process team sheets
+        print("Processing team sheets...")
+        try:
+            process_team_sheets(sheet, league_name, output_path)
+        except Exception as e:
+            print(f"Team sheet processing skipped: {e}")
+
         print(f"✓ Site '{site_name}' processed successfully!")
         return True
         
