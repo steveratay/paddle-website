@@ -211,8 +211,23 @@ def parse_sheet_data(data):
     return matches
 
 
-def load_html_template():
-    """Load the base HTML template from existing results.html file."""
+def load_html_template(output_folder=None):
+    """Load the base HTML template from existing results.html file.
+    
+    Args:
+        output_folder: The output folder path. If it's a league subfolder 
+                       (not the root docs), returns None to avoid loading 
+                       redirect content from docs/results.html
+    """
+    # If output folder is specified and is a league subfolder (contains wc-),
+    # don't load the template with redirects
+    if output_folder:
+        folder_name = Path(output_folder).name
+        # Check if this is a league subfolder (e.g., wc-mens-spring-26)
+        if folder_name.startswith("wc-"):
+            # For league subfolders, we don't want to load the redirect template
+            return None
+    
     template_path = SCRIPT_DIR / "docs" / "results.html"
     
     if template_path.exists():
@@ -320,6 +335,26 @@ def generate_main_content(matches):
     return "\n".join(main_content)
 
 
+def remove_redirect_content(html_content):
+    """Remove redirect meta tags and scripts from HTML content."""
+    if not html_content:
+        return html_content
+    
+    # Remove meta refresh tag
+    html_content = re.sub(r'<meta\s+http-equiv="refresh"[^>]*>', '', html_content, flags=re.IGNORECASE)
+    
+    # Remove redirect script (look for window.location.href patterns)
+    html_content = re.sub(r'<script>.*?window\.location\.href.*?</script>', '', html_content, flags=re.DOTALL | re.IGNORECASE)
+    
+    # Remove "Redirecting..." title if present
+    html_content = re.sub(r'<title>Redirecting\.\.\.</title>', '', html_content, flags=re.IGNORECASE)
+    
+    # Remove any remaining redirect paragraph
+    html_content = re.sub(r'<p>If you are not redirected automatically.*?</p>', '', html_content, flags=re.DOTALL | re.IGNORECASE)
+    
+    return html_content
+
+
 def replace_main_content(html_content, new_main_content):
     """Replace the content inside the <main> tag with new content."""
     # Pattern to match everything between <main> and </main> tags
@@ -333,14 +368,14 @@ def replace_main_content(html_content, new_main_content):
     return result
 
 
-def generate_results_html(matches):
+def generate_results_html(matches, league_name, output_folder=None):
     """Generate the complete results.html content from match data."""
     # Load the existing template
-    template = load_html_template()
+    template = load_html_template(output_folder)
     
     if template is None:
         # If no template exists, create a minimal one
-        return generate_minimal_html(matches)
+        return generate_minimal_html(matches, league_name)
     
     # Generate the main content
     main_content = generate_main_content(matches)
@@ -351,7 +386,7 @@ def generate_results_html(matches):
     # Ensure the style section exists (safety check)
     if '<style>' not in html_content:
         # Extract styles from minimal HTML and add them
-        minimal_html = generate_minimal_html(matches)
+        minimal_html = generate_minimal_html(matches, league_name)
         style_content = extract_style_content(minimal_html)
         if style_content:
             # Find </head> and insert style before it
@@ -361,7 +396,7 @@ def generate_results_html(matches):
     return html_content
 
 
-def generate_minimal_html(matches):
+def generate_minimal_html(matches, league_name):
     """Generate a minimal HTML template when no existing template exists."""
     main_content = generate_main_content(matches)
     
@@ -370,7 +405,8 @@ def generate_minimal_html(matches):
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Winter Club – Results | Mens Spring Paddle League 2026</title>
+  <title>Winter Club – Results | {league_name}</title>
+  <link rel="stylesheet" href="../common.css" />
   <style>
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 
@@ -638,14 +674,14 @@ def generate_minimal_html(matches):
     <div class="header-badge">Winter Club</div>
     <h1>
       Results
-      <span>Mens Spring Paddle League 2026</span>
+      <span>{league_name}</span>
     </h1>
   </header>
   <main>
 {main_content}
   </main>
   <footer>
-    <strong>Winter Club</strong> &nbsp;·&nbsp; Mens Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
+    <strong>Winter Club</strong> &nbsp;·&nbsp; {league_name} &nbsp;·&nbsp; All rights reserved
   </footer>
 </body>
 </html>'''
@@ -701,17 +737,20 @@ def fetch_standings():
         return None
 
 
-def generate_standings_html(standings):
+def generate_standings_html(standings, league_name, output_folder=None):
     """Generate the standings.html content from standings data."""
     # Load the existing standings.html template
     standings_template_path = SCRIPT_DIR / "docs" / "standings.html"
     template = None
-    
-    if standings_template_path.exists():
+
+    # Don't use the redirect template for league subfolders
+    if output_folder and Path(output_folder).name.startswith("wc-"):
+        template = None
+    elif standings_template_path.exists():
         template = standings_template_path.read_text(encoding="utf-8")
-    
+
     if template is None:
-        return generate_minimal_standings_html(standings)
+        return generate_minimal_standings_html(standings, league_name)
     
     # Generate the main content for standings
     main_content = generate_standings_main_content(standings)
@@ -765,7 +804,7 @@ def generate_standings_main_content(standings):
     return "\n".join(main_content)
 
 
-def generate_minimal_standings_html(standings):
+def generate_minimal_standings_html(standings, league_name):
     """Generate a minimal HTML template for standings when no template exists."""
     main_content = generate_standings_main_content(standings)
     
@@ -774,7 +813,8 @@ def generate_minimal_standings_html(standings):
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Winter Club – Standings | Mens Spring Paddle League 2026</title>
+  <title>Winter Club – Standings | {league_name}</title>
+  <link rel="stylesheet" href="../common.css" />
   <style>
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 
@@ -959,14 +999,14 @@ def generate_minimal_standings_html(standings):
     <div class="header-badge">Winter Club</div>
     <h1>
       Standings
-      <span>Mens Spring Paddle League 2026</span>
+      <span>{league_name}</span>
     </h1>
   </header>
   <main>
 {main_content}
   </main>
   <footer>
-    <strong>Winter Club</strong> &nbsp;·&nbsp; Mens Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
+    <strong>Winter Club</strong> &nbsp;·&nbsp; {league_name} &nbsp;·&nbsp; All rights reserved
   </footer>
 </body>
 </html>'''
@@ -977,6 +1017,7 @@ def process_site(site_config, creds_file):
     import os
     
     site_name = site_config.get('name', 'unknown')
+    league_name = site_config.get('league_name', '')
     spreadsheet_url = site_config.get('spreadsheet_url', '')
     output_folder = site_config.get('output_folder', 'docs')
     results_worksheet = site_config.get('results_worksheet', 'Results')
@@ -1032,7 +1073,7 @@ def process_site(site_config, creds_file):
         
         # Generate HTML
         print("Generating results.html...")
-        html_content = generate_results_html(matches)
+        html_content = generate_results_html(matches, league_name, output_folder)
         
         # Write to file
         results_html_path.write_text(html_content, encoding="utf-8")
@@ -1064,7 +1105,7 @@ def process_site(site_config, creds_file):
                 if standings:
                     print(f"Found {len(standings)} team(s) in standings")
                     print("Generating standings.html...")
-                    standings_html = generate_standings_html(standings)
+                    standings_html = generate_standings_html(standings, league_name, output_folder)
                     standings_html_path.write_text(standings_html, encoding="utf-8")
                     print(f"✓ Standings written to: {standings_html_path}")
                 else:

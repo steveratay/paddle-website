@@ -3,10 +3,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Winter Club – Standings | Mens Spring Paddle League 2026</title>
+  <title>Winter Club – Standings | Womens Spring Paddle League 2026</title>
   <link rel="stylesheet" href="../common.css" />
   <style>
-    main { max-width: 860px; padding: 3.5rem 1.25rem 4rem; text-align: center; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:    #1a4a2e;
+      --green-primary: #2d6a4f;
+      --green-mid:     #40916c;
+      --green-light:   #74c69d;
+      --green-pale:    #d8f3dc;
+      --white:         #ffffff;
+      --text-dark:     #1b2e22;
+      --shadow:        0 4px 16px rgba(0,0,0,0.15);
+      --radius:        10px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f0f7f2;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      background: var(--green-dark);
+      display: flex;
+      align-items: center;
+      padding: 0 1.5rem;
+      height: 56px;
+      gap: 0.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .nav-brand {
+      color: var(--white);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      margin-right: auto;
+      white-space: nowrap;
+    }
+
+    .nav-brand span { opacity: 0.6; font-weight: 400; }
+
+    nav a.nav-link {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    nav a.nav-link:hover,
+    nav a.nav-link.active {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-primary) 60%, var(--green-mid) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      padding: 0.35rem 1.1rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    header h1 span {
+      display: block;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      opacity: 0.9;
+      margin-top: 0.35rem;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 3.5rem 1.25rem 4rem;
+      flex: 1;
+      text-align: center;
+    }
+
+    .standings-table-container {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .standings-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .standings-table thead {
+      background: var(--green-primary);
+      color: var(--white);
+    }
+
+    .standings-table th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .standings-table tbody tr {
+      border-bottom: 1px solid var(--green-pale);
+    }
+
+    .standings-table tbody tr:hover {
+      background: var(--green-pale);
+      opacity: 0.6;
+    }
+
+    .standings-table td {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--green-primary);
+    }
+
+    .standings-table td:first-child {
+      font-weight: 600;
+      color: var(--green-dark);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.82rem;
+    }
+
+    footer strong { color: rgba(255,255,255,0.85); }
   </style>
 </head>
 <body>
@@ -22,7 +189,7 @@
     <div class="header-badge">Winter Club</div>
     <h1>
       Standings
-      <span>Mens Spring Paddle League 2026</span>
+      <span>Womens Spring Paddle League 2026</span>
     </h1>
   </header>
   <main>
@@ -84,7 +251,7 @@
       </table>
   </main>
   <footer>
-    <strong>Winter Club</strong> &nbsp;·&nbsp; Mens Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
+    <strong>Winter Club</strong> &nbsp;·&nbsp; Womens Spring Paddle League 2026 &nbsp;·&nbsp; All rights reserved
   </footer>
 </body>
 </html>

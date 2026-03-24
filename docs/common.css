@@ -302,6 +302,7 @@ footer strong { color: rgba(255,255,255,0.85); }
   padding: 0.6rem 0.75rem;
   text-align: left;
   border: 1px solid var(--green-primary);
+  width: 300px;
 }
 
 .team-left {

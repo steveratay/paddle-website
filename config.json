@@ -7,7 +7,8 @@
       "results_worksheet": "Results",
       "standings_worksheet": "Standings",
       "results_template": "docs/wc-mens-spring-26/results.html",
-      "standings_template": "docs/wc-mens-spring-26/standings.html"
+      "standings_template": "docs/wc-mens-spring-26/standings.html",
+      "league_name": "Mens Spring Paddle League 2026"
     },
     {
       "name": "wc-womens-spring-26",
@@ -16,7 +17,8 @@
       "results_worksheet": "Results",
       "standings_worksheet": "Standings",
       "results_template": "docs/wc-womens-spring-26/results.html",
-      "standings_template": "docs/wc-womens-spring-26/standings.html"
+      "standings_template": "docs/wc-womens-spring-26/standings.html",
+      "league_name": "Womens Spring Paddle League 2026"
     }
   ],
   "default_credentials_file": "service-account-credentials.json"
