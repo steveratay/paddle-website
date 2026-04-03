@@ -279,7 +279,6 @@ def generate_main_content(matches):
             main_content.append(f'          <tr class="match-header-row">')
             main_content.append(f'            <th class="team-cell team-left" colspan="2" style="padding-bottom: 0.3rem;">{home_team}</th>')
             main_content.append(f'            <th class="center-cell" colspan="1" style="border-left: 2px solid var(--green-primary); border-right: 2px solid var(--green-primary); vertical-align: bottom; width: 100px;">')
-            main_content.append(f'              <span class="vs-text">vs.</span>')
             main_content.append(f'              <div class="match-score" style="display: inline-block; font-size: 1.1rem; background: var(--white); padding: 0.35rem 0.9rem; border-radius: 4px; color: var(--green-dark);">{home_total} - {guest_total}</div>')
             main_content.append(f'            </th>')
             main_content.append(f'            <th class="team-cell team-right" colspan="2" style="padding-bottom: 0.3rem;">{guest_team}</th>')
@@ -315,7 +314,6 @@ def generate_main_content(matches):
                 
                 # Set score display (center column)
                 main_content.append(f'            <td class="center-cell" style="width: 100px;">')
-                main_content.append(f'              <span class="vs-text">vs.</span>')
                 if set_score:
                     main_content.append(f'              <span class="set-score">{set_score}</span>')
                 main_content.append(f'            </td>')
