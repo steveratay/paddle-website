@@ -3,6 +3,10 @@ name: Update Results
 on:
   workflow_dispatch:
 
+concurrency:
+  group: update-results
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
