@@ -44,7 +44,7 @@ const WORKFLOW = "update-results.yml";
 const BRANCH = "main";
 const DEBOUNCE_SECONDS = 30;
 
-function onEdit(e) {
+function onSheetEdit(e) {
   // Delete any pending trigger
   ScriptApp.getProjectTriggers().forEach(trigger => {
     if (trigger.getHandlerFunction() === "triggerGitHubWorkflow") {
@@ -84,11 +84,29 @@ function triggerGitHubWorkflow() {
 }
 ```
 
-After saving the script:
+After saving the script, update the `appsscript.json` manifest (enable it via **Project Settings > Show "appsscript.json" manifest file in editor**):
+
+```json
+{
+  "timeZone": "America/New_York",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.scriptapp",
+    "https://www.googleapis.com/auth/spreadsheets.currentonly",
+    "https://www.googleapis.com/auth/script.external_request"
+  ]
+}
+```
+
+Then set up an installable trigger:
 
 - Click the **Triggers** icon (clock) in the left sidebar
-- **Add Trigger** → function: `onEdit`, event source: `From spreadsheet`, event type: `On edit`
-- Save and authorize when prompted
+- **Add Trigger** → function: `onSheetEdit`, event source: `From spreadsheet`, event type: `On edit`
+- Save and authorize when prompted (you'll see an "unverified app" warning — click **Advanced > Go to [project] (unsafe) > Allow**)
+
+> **Note:** The function is named `onSheetEdit` rather than `onEdit` intentionally. Google's built-in simple trigger (`onEdit`) runs in a restricted sandbox that blocks `ScriptApp` calls. An installable trigger pointing to any other function name runs with full authorization and works correctly.
 
 The debounce means the workflow only fires once editing stops for 30 seconds, preventing a flood of jobs during data entry.
 
